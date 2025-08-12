@@ -1,0 +1,17 @@
+{
+  "name": "AtCoder Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.go",
+        "formulahendry.code-runner",
+        "usernamehw.errorlens",
+        "vscode-icons-team.vscode-icons"
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "[setup] Update atcoder-cli template",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/update_template.sh",
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+    },
+    {
+      "label": "[setup] C# environment",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/setup_csharp.sh",
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+    },
+    // Go task
+    {
+      "label": "[test] (Go) Run test",
+      "type": "shell",
+      "command": "oj t -c 'go run ${file}' -d ${fileDirname}/tests/",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+    },
+    // C# task
+    {
+      "label": "[build] (C#) Build",
+      "type": "shell",
+      "command": "dotnet build ${fileDirname} -c Debug",
+    },
+    {
+      "label": "[build] (C#) Release build",
+      "type": "shell",
+      "command": "dotnet publish ${fileDirname} -c Release",
+      "dependsOrder": "sequence",
+    },
+    {
+      "label": "[test] (C#) Run test",
+      "type": "shell",
+      "command": "oj t -c '${fileDirname}/bin/Release/net9.0/publish/Program' -d ${fileDirname}/tests/",
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "dependsOn": "[build] (C#) Release build",
+      "dependsOrder": "sequence"
+    }
+  ]
+}

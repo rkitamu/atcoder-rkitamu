@@ -1,0 +1,41 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // Go configurations
+    {
+      "name": "(Go) Debug Current File",
+      "type": "go",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+    },
+    {
+      "name": "(Go) Debug Prompt",
+      "type": "go",
+      "request": "launch",
+      "program": "${workspaceFolder}/problems/${input:contest}/${input:problem}/main.go",
+      "console": "integratedTerminal"
+    },
+    // C# configurations
+    {
+      "name": "(C#) Debug Current File",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${fileDirname}/bin/Debug/net9.0/Program.dll",
+      "console": "integratedTerminal",
+      "preLaunchTask": "[build] (C#) Build",
+    }
+  ],
+  "inputs": [
+    {
+      "id": "contest",
+      "type": "promptString",
+      "description": "Enter contest directory (e.g. abc405)"
+    },
+    {
+      "id": "problem",
+      "type": "promptString",
+      "description": "Enter problem letter (e.g. a, b, c)"
+    }
+  ]
+}

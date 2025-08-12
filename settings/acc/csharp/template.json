@@ -1,0 +1,6 @@
+{
+    "task": {
+        "program": ["Program.cs", "Program.csproj"],
+        "submit": "Program.cs"
+    }
+}

@@ -1,0 +1,16 @@
+# VS Code settings
+#.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python venvs (if used)
+.venv/
+__pycache__/
+*.pyc
+
+# C# build outputs
+bin/
+obj/

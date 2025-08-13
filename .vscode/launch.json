@@ -23,7 +23,7 @@
       "request": "launch",
       "program": "${fileDirname}/bin/Debug/net9.0/Program.dll",
       "console": "integratedTerminal",
-      "preLaunchTask": "[build] (C#) Build",
+      "preLaunchTask": "[build] (C#) Debug build",
     }
   ],
   "inputs": [

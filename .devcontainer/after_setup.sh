@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 引数で workspace ルートを受け取る（未指定なら /workspaces/atcoder を仮定）
+# Get the workspace root directory (default: /workspaces/atcoder)
 ROOT="${1:-/workspaces/atcoder}"
 
-# acc 設定：コンテストのディレクトリ形式をワークスペース基準に
+# Configure the contest directory format based on the workspace
 acc config default-contest-dirname-format "$ROOT/problems/{ContestID}"
 
-# 設定ファイルコピー（dotfileも含めて安全に）
+# Copy configuration files (including hidden files)
 cfgdir="$(acc config-dir)"
 mkdir -p "$cfgdir"
-# 末尾を「/.」にすると * と違って隠しファイルも含めて中身をコピーできる
 cp -r "$ROOT/settings/acc/." "$cfgdir/"
 
-# デフォルトテンプレート
+# Set the default template
 acc config default-template go

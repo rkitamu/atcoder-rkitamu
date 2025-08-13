@@ -1,10 +1,16 @@
 {
   "version": "2.0.0",
   "tasks": [
+    // workspace setup tasks
     {
-      "label": "[setup] Update atcoder-cli template",
+      "label": "[setup] Update atcoder-cli templates",
       "type": "shell",
-      "command": "${workspaceFolder}/scripts/update_template.sh",
+      "command": "cp",
+      "args": [
+        "-r",
+        "${workspaceFolder}/settings/acc/*",
+        "/home/vscode/.config/atcoder-cli-nodejs"
+      ],
       "group": "none",
       "presentation": {
         "echo": true,
@@ -13,7 +19,7 @@
         "panel": "shared",
         "showReuseMessage": true,
         "clear": false
-      },
+      }
     },
     {
       "label": "[setup] C# environment",
@@ -27,11 +33,77 @@
         "panel": "shared",
         "showReuseMessage": true,
         "clear": false
-      },
+      }
     },
-    // Go task
     {
-      "label": "[test] (Go) Run test",
+      "label": "[setup] After container setup",
+      "type": "shell",
+      "command": "${workspaceFolder}/.devcontainer/after_setup.sh",
+      "args": [
+        "${workspaceFolder}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    // contest workflow tasks
+    {
+      "label": "[flow] New contest (interactive)",
+      "type": "shell",
+      "command": "acc",
+      "args": [
+        "new",
+        "${input:contestId}",
+        "--template",
+        "${input:template}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "label": "[flow] Add problem (interactive)",
+      "type": "shell",
+      "command": "acc",
+      "args": [
+        "add",
+        "${input:contestId}",
+        "--template",
+        "${input:template}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/problems/${input:contestId}"
+      },
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    // Go tasks
+    {
+      "label": "[test] (Go) Run tests",
       "type": "shell",
       "command": "oj t -c 'go run ${file}' -d ${fileDirname}/tests/",
       "group": "test",
@@ -42,22 +114,22 @@
         "panel": "shared",
         "showReuseMessage": true,
         "clear": false
-      },
+      }
     },
-    // C# task
+    // C# tasks
     {
-      "label": "[build] (C#) Build",
+      "label": "[build] (C#) Debug build",
       "type": "shell",
-      "command": "dotnet build ${fileDirname} -c Debug",
+      "command": "dotnet build ${fileDirname} -c Debug"
     },
     {
       "label": "[build] (C#) Release build",
       "type": "shell",
       "command": "dotnet publish ${fileDirname} -c Release",
-      "dependsOrder": "sequence",
+      "dependsOrder": "sequence"
     },
     {
-      "label": "[test] (C#) Run test",
+      "label": "[test] (C#) Run tests",
       "type": "shell",
       "command": "oj t -c '${fileDirname}/bin/Release/net9.0/publish/Program' -d ${fileDirname}/tests/",
       "group": "test",
@@ -71,6 +143,24 @@
       },
       "dependsOn": "[build] (C#) Release build",
       "dependsOrder": "sequence"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "contestId",
+      "type": "promptString",
+      "description": "Enter contest ID (e.g., abc401)",
+      "default": "abc401"
+    },
+    {
+      "id": "template",
+      "type": "pickString",
+      "description": "Select a template",
+      "options": [
+        "go",
+        "csharp"
+      ],
+      "default": "go"
     }
   ]
 }

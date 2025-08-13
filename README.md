@@ -15,20 +15,17 @@ To get started instantly with a preconfigured environment using [Dev Containers]
 
 ### 1. Launch in DevContainer
 
-Open this project in VS Code and run:
+1. Open this project in VS Code and run:
 
 ```bash
 Cmd+Shift+P → Dev Containers: Reopen in Container
 ```
 
-This will build a container with:
+2. Restart VS Code
 
-* Go:latest
-* node.js
-* Python3
-* online-judge-tools
-* atcoder-cli
-* Pre-installed VS Code extensions for Go and testing
+**Why**: The `acc` command will not be available in the terminal until VS Code is restarted after the container is built.
+
+3. Run the VS Code task `[setup] After container setup`
 
 ### 2. Login to the tools
 
@@ -49,7 +46,7 @@ Paste copied REVEL_SESSION
 
 With the above setup you can participate in contests using Go, but there’s limited support for a few other languages as well.  
 
-Run the VS Code task [setup] xx environment (replace xx with the language name) to set up the environment for solving problems in that language.  
+Run the VS Code task `[setup] xx environment` (replace xx with the language name) to set up the environment for solving problems in that language.  
 
 ## 🚀 Usage
 

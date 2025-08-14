@@ -120,13 +120,28 @@
     {
       "label": "[build] (C#) Debug build",
       "type": "shell",
-      "command": "dotnet build ${fileDirname} -c Debug"
+      "command": "dotnet build ${fileDirname} -c Debug",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
     },
     {
       "label": "[build] (C#) Release build",
       "type": "shell",
       "command": "dotnet publish ${fileDirname} -c Release",
-      "dependsOrder": "sequence"
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      }
     },
     {
       "label": "[test] (C#) Run tests",

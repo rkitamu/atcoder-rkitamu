@@ -6,6 +6,28 @@ class Program
     static void Main()
     {
     }
+
+    // {R = Read}{i = int}[s = array]
+    private static int Ri() => StdReader.ReadSingle<int>();
+    private static long Rl() => StdReader.ReadSingle<long>();
+    private static double Rd() => StdReader.ReadSingle<double>();
+    private static string Rs() => StdReader.ReadSingle<string>();
+    private static char Rc() => StdReader.ReadSingle<char>();
+    private static int[] Ris() => StdReader.ReadMultiple<int>();
+    private static long[] Rls() => StdReader.ReadMultiple<long>();
+    private static double[] Rds() => StdReader.ReadMultiple<double>();
+    private static string[] Rss() => StdReader.ReadMultiple<string>();
+    private static char[] Rcs() => StdReader.ReadMultiple<char>();
+    private static char[][] RGrid(int h, int w, int offset = 0) => StdReader.ReadGrid(h, w, offset);
+    private static T[][] RMatrix<T>(int h, int w, int offset = 0) => StdReader.ReadMatrix<T>(h, w, offset);
+    // {W = Write}{i = int}[s = T[][]]
+    private static void WYes() => StdWriter.Yes();
+    private static void WNo() => StdWriter.No();
+    private static void Wl<T>(T value) => StdWriter.PrintLine(value);
+    private static void Wl(double value, int digits) => StdWriter.PrintLine(value, digits);
+    private static void Wl(double[] a, int digits) => StdWriter.PrintLine(a, digits);
+    private static void Wls<T>(T[][] mat) => StdWriter.PrintLines(mat);
+    private static void Wls(double[][] mat, int digits) => StdWriter.PrintLines(mat, digits);
 }
 
 public static class StdReader

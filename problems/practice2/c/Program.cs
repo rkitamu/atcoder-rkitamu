@@ -5,6 +5,15 @@ class Program
 {
     static void Main()
     {
+        var t = StdReader.ReadSingle<int>();
+        for (; t > 0; t--)
+        {
+            var n = StdReader.ReadSingle<int>();
+            var m = StdReader.ReadSingle<int>();
+            var a = StdReader.ReadSingle<int>();
+            var b = StdReader.ReadSingle<int>();
+            StdWriter.PrintLine(MathLib.FloorSum(n, m, a, b));
+        }
     }
 }
 

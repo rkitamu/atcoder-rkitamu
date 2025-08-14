@@ -5,8 +5,52 @@ class Program
 {
     static void Main()
     {
+        var n = StdReader.ReadSingle<int>();
+        var q = StdReader.ReadSingle<int>();
+        var a = StdReader.ReadMultiple<int>();
+        var seg = new Segtree<long, SegtreeOperator>(n + 1);
+        for (int i = 1; i <= n; i++)
+        {
+            seg[i] = a[i - 1];
+        }
+
+        for (; q > 0; q--)
+        {
+            var t = StdReader.ReadSingle<int>();
+            if (t == 1)
+            {
+                var x = StdReader.ReadSingle<int>();
+                var v = StdReader.ReadSingle<int>();
+                seg[x] = v;
+            }
+            else if (t == 2)
+            {
+                var l = StdReader.ReadSingle<int>();
+                var r = StdReader.ReadSingle<int>();
+                StdWriter.PrintLine(seg.Prod(l, r + 1));
+            }
+            else if (t == 3)
+            {
+                var x = StdReader.ReadSingle<int>();
+                var v = StdReader.ReadSingle<int>();
+                var ans = StlFunction.BinarySearch(
+                    n + 1,
+                    x - 1,
+                    i => seg.Prod(x, i + 1) >= v
+                );
+                StdWriter.PrintLine(ans);
+            }
+        }
     }
 }
+
+struct SegtreeOperator : ISegtreeOperator<long>
+{
+    public long Identity => long.MinValue;
+
+    public long Operate(long x, long y) => Math.Max(x, y);
+}
+
 
 public static class StdReader
 {
@@ -294,63 +338,4 @@ public static class StdWriter
 
     // 桁数の範囲を制限
     private static int ClampDigits(int d) => d < 0 ? 0 : (d > 99 ? 99 : d);
-}
-
-public static class Algorithms
-{
-    /// <summary>
-    /// lower_bound：ソート済み列から「value 以上」の最初の位置を返す。
-    /// </summary>
-    /// <remarks>cmp 未指定時は <typeparamref name="T"/> が IComparable&lt;T&gt; を実装している必要あり。</remarks>
-    public static int LowerBound<T>(IList<T> list, T value)
-        => LowerBound(list, value, 0, list.Count);
-
-    /// <summary>
-    /// lower_bound（半開区間 [l, r) を探索）。
-    /// </summary>
-    /// <param name="l">探索開始インデックス（含む）。</param>
-    /// <param name="r">探索終了インデックス（含まない）。</param>
-    public static int LowerBound<T>(IList<T> list, T value, int l, int r, IComparer<T> cmp = null)
-    {
-        if (list is null) throw new ArgumentNullException(nameof(list));
-        if (l < 0 || r < l || r > list.Count) throw new ArgumentOutOfRangeException();
-        var c = cmp ?? Comparer<T>.Default;
-
-        int left = l, right = r;
-        while (left < right)
-        {
-            int mid = left + ((right - left) >> 1);
-            if (c.Compare(list[mid], value) < 0) left = mid + 1;
-            else right = mid;
-        }
-        return left;
-    }
-
-    /// <summary>
-    /// upper_bound：ソート済み列から「value より大きい」最初の位置を返す。
-    /// </summary>
-    /// <remarks>cmp 未指定時は <typeparamref name="T"/> が IComparable&lt;T&gt; を実装している必要あり。</remarks>
-    public static int UpperBound<T>(IList<T> list, T value)
-        => UpperBound(list, value, 0, list.Count);
-
-    /// <summary>
-    /// upper_bound（半開区間 [l, r) を探索）。
-    /// </summary>
-    /// <param name="l">探索開始インデックス（含む）。</param>
-    /// <param name="r">探索終了インデックス（含まない）。</param>
-    public static int UpperBound<T>(IList<T> list, T value, int l, int r, IComparer<T> cmp = null)
-    {
-        if (list is null) throw new ArgumentNullException(nameof(list));
-        if (l < 0 || r < l || r > list.Count) throw new ArgumentOutOfRangeException();
-        var c = cmp ?? Comparer<T>.Default;
-
-        int left = l, right = r;
-        while (left < right)
-        {
-            int mid = left + ((right - left) >> 1);
-            if (c.Compare(list[mid], value) <= 0) left = mid + 1;
-            else right = mid;
-        }
-        return left;
-    }
 }

@@ -1,10 +1,47 @@
-﻿using AtCoder;
+﻿
+using System.Text;
+using AtCoder;
 using MathNet;
 
 class Program
 {
     static void Main()
     {
+        var N = Ri();
+        var X = Ri() - 1;
+        var S = new StringBuilder(Rs());
+
+
+        var lpos = X;
+        while (lpos > 0)
+        {
+            if (S[lpos - 1] == '.')
+            {
+                S[lpos - 1] = '@';
+                lpos--;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        var rpos = X;
+        while (rpos < N - 1)
+        {
+            if (S[rpos + 1] == '.')
+            {
+                S[rpos + 1] = '@';
+                rpos++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        S[X] = '@';
+        Wl(S.ToString());
     }
 
     // {R = Read}{i = int}[s = array]

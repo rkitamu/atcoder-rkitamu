@@ -7,35 +7,22 @@ class Program
     {
         var N = Ri();
         var Q = Ri();
-        var S = Rs();
-        var sHash = new List<StaticModInt<Mod1000000007>>();
-        var sHashRev = new List<StaticModInt<Mod1000000007>>();
-        sHash.Add(0);
-        sHashRev.Add(0);
-        for (int i = 1; i <= N; i++)
+        var A = Ris(1);
+
+        var dp = new int[31, N + 1];
+
+        for (int i = 0; i < 31; i++)
         {
-            sHash.Add(sHash[i - 1] * 100 + (S[i - 1] - 'a') + 1);
-            sHashRev.Add(sHashRev[i - 1] * 100 + (S[N - i] - 'a') + 1);
-        }
-
-        while (Q-- > 0)
-        {
-            var L = Ri();
-            var R = Ri();
-
-            var len = R - L + 1;
-            var (leftL, leftR) = (L, L + len / 2 - 1);
-            var (rightL, rightR) = (N - R + 1, N - R + 1 + len / 2 - 1);
-
-            var leftHash = sHash[leftR] - sHash[leftL - 1] * new StaticModInt<Mod1000000007>(100).Pow(leftR - leftL + 1);
-            var rightHash = sHashRev[rightR] - sHashRev[rightL - 1] * new StaticModInt<Mod1000000007>(100).Pow(rightR - rightL + 1);
-            if (leftHash == rightHash)
+            for (int j = 1; j <= N; j++)
             {
-                WYes();
-            }
-            else
-            {
-                WNo();
+                if (i == 0)
+                {
+                    dp[i, j] = A[j + 1];
+                }
+                else
+                {
+                    dp[i, j] = dp[i - 1, dp[i - 1, j]];
+                }
             }
         }
     }

@@ -1,43 +1,37 @@
-﻿using AtCoder;
+﻿using System.Runtime.InteropServices.Marshalling;
+using AtCoder;
 using MathNet;
 
 class Program
 {
+    struct Kabu {
+        public int Index { get; set; }
+        public int Value { get; set; }
+    }
     static void Main()
     {
         var N = Ri();
-        var Q = Ri();
         var A = Ris(1);
-        var dp = new int[31, N + 1];
-
+        var st = new Stack<Kabu>();
         for (int i = 1; i <= N; i++)
         {
-            dp[0, i] = A[i];
-        }
-
-        for (int i = 1; i <= 30; i++)
-        {
-            for (int j = 1; j <= N; j++)
+            var kisanbi = -1;
+            while (st.Count > 0)
             {
-                dp[i, j] = dp[i - 1, dp[i - 1, j]];
-            }
-        }
-        while (Q-- > 0)
-        {
-            var X = Ri();
-            var Y = Ri();
-            var next = X;
-            for (int i = 30; i >= 0; i--)
-            {
-                if ((Y & (1 << i)) != 0)
+                if (st.Peek().Value > A[i])
                 {
-                    next = dp[i, next];
+                    kisanbi = st.Peek().Index;
+                    break;
+                }
+                else
+                {
+                    st.Pop();
                 }
             }
-            Wl(next);
+            Wl(kisanbi);
+            st.Push(new Kabu { Index = i, Value = A[i] });
         }
     }
-
     // {R = Read}{i = int}[s = array]
     private static int Ri() => StdReader.ReadSingle<int>();
     private static long Rl() => StdReader.ReadSingle<long>();
@@ -56,7 +50,7 @@ class Program
     private static void WNo() => StdWriter.No();
     private static void Wl<T>(T value) => StdWriter.PrintLine(value);
     private static void Wl(double value, int digits) => StdWriter.PrintLine(value, digits);
-    private static void Wl<T>(T[] a) => StdWriter.PrintLine(a);
+    private static void Wls<T>(T[] a) => StdWriter.PrintLine(a);
     private static void Wl(double[] a, int digits) => StdWriter.PrintLine(a, digits);
     private static void Wls<T>(T[][] mat) => StdWriter.PrintLines(mat);
     private static void Wls(double[][] mat, int digits) => StdWriter.PrintLines(mat, digits);

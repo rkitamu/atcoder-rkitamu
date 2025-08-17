@@ -3,40 +3,53 @@ using MathNet;
 
 class Program
 {
+
+    struct SegtreeOperator : ISegtreeOperator<int> { public int Identity => int.MaxValue; public int Operate(int x, int y) => Math.Min(x, y); }
     static void Main()
     {
         var N = Ri();
-        var Q = Ri();
-        var A = Ris(1);
-        var dp = new int[31, N + 1];
+        var L = Ri();
+        var R = Ri();
+        var X = Ris(1);
+        var dp = new int[N + 1];
+        for (int i = 1; i <= N; i++) dp[i] = int.MaxValue;
+        dp[1] = 0;
 
-        for (int i = 1; i <= N; i++)
-        {
-            dp[0, i] = A[i];
-        }
+        var st = new Segtree<int, SegtreeOperator>(N + 1);
+        for (int i = 1; i <= N; i++) st[i] = int.MaxValue;
+        st[1] = 0;
 
-        for (int i = 1; i <= 30; i++)
+        for (int i = 2; i <= N; i++)
         {
-            for (int j = 1; j <= N; j++)
+            int ll = X[i] - R;
+            int rr = X[i] - L;
+
+            int l = Array.BinarySearch(X, 1, i - 1, ll);
+            if (l < 0)
             {
-                dp[i, j] = dp[i - 1, dp[i - 1, j]];
+                l = ~l;
             }
-        }
-        while (Q-- > 0)
-        {
-            var X = Ri();
-            var Y = Ri();
-            var next = X;
-            for (int i = 30; i >= 0; i--)
+
+            int r = Array.BinarySearch(X, 1, i - 1, rr);
+            if (r < 0)
             {
-                if ((Y & (1 << i)) != 0)
+                r = ~r - 1;
+            }
+
+            if (l <= r)
+            {
+                int best = st.Prod(l, r + 1);
+                if (best < int.MaxValue)
                 {
-                    next = dp[i, next];
+                    dp[i] = best + 1;
                 }
             }
-            Wl(next);
+            st[i] = dp[i];
         }
+
+        Wl(dp[N]);
     }
+
 
     // {R = Read}{i = int}[s = array]
     private static int Ri() => StdReader.ReadSingle<int>();

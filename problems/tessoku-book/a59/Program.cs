@@ -1,43 +1,42 @@
-﻿using AtCoder;
+﻿using System.Reflection.Metadata;
+using AtCoder;
 using MathNet;
 
 class Program
 {
+    struct SegtreeOperator : ISegtreeOperator<int>
+    {
+        public int Identity => 0;
+
+        public int Operate(int x, int y)
+        {
+            return x + y;
+        }
+    }
     static void Main()
     {
         var N = Ri();
         var Q = Ri();
-        var A = Ris(1);
-        var dp = new int[31, N + 1];
-
-        for (int i = 1; i <= N; i++)
-        {
-            dp[0, i] = A[i];
-        }
-
-        for (int i = 1; i <= 30; i++)
-        {
-            for (int j = 1; j <= N; j++)
-            {
-                dp[i, j] = dp[i - 1, dp[i - 1, j]];
-            }
-        }
+        var st = new Segtree<int, SegtreeOperator>(N + 1);
+    
         while (Q-- > 0)
         {
-            var X = Ri();
-            var Y = Ri();
-            var next = X;
-            for (int i = 30; i >= 0; i--)
+            var t = Ri();
+            if (t == 1)
             {
-                if ((Y & (1 << i)) != 0)
-                {
-                    next = dp[i, next];
-                }
+                var pos = Ri();
+                var x = Ri();
+                st[pos] = x;
             }
-            Wl(next);
+            else
+            {
+                var l = Ri();
+                var r = Ri();
+                var ans = st.Prod(l, r);
+                Wl(ans);
+            }
         }
     }
-
     // {R = Read}{i = int}[s = array]
     private static int Ri() => StdReader.ReadSingle<int>();
     private static long Rl() => StdReader.ReadSingle<long>();

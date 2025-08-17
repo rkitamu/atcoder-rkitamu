@@ -6,36 +6,46 @@ class Program
     static void Main()
     {
         var N = Ri();
-        var Q = Ri();
-        var A = Ris(1);
+        var K = Ri();
         var dp = new int[31, N + 1];
-
         for (int i = 1; i <= N; i++)
         {
-            dp[0, i] = A[i];
+            dp[0, i] = i - calcDigitSum(i);
         }
 
-        for (int i = 1; i <= 30; i++)
+        for (int i = 1; i < 31; i++)
         {
             for (int j = 1; j <= N; j++)
             {
                 dp[i, j] = dp[i - 1, dp[i - 1, j]];
             }
         }
-        while (Q-- > 0)
+
+
+        for (int z = 1; z <= N; z++)
         {
-            var X = Ri();
-            var Y = Ri();
-            var next = X;
+            int next = z;
             for (int i = 30; i >= 0; i--)
             {
-                if ((Y & (1 << i)) != 0)
+                if ((K & (1 << i)) != 0)
                 {
                     next = dp[i, next];
                 }
             }
             Wl(next);
         }
+
+    }
+
+    static int calcDigitSum(int n)
+    {
+        int sum = 0;
+        while (n > 0)
+        {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
     }
 
     // {R = Read}{i = int}[s = array]
